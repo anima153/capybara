@@ -224,12 +224,12 @@ module Capybara
       # @option options [Hash] style   A Hash of CSS styles to change before attempting to attach the file (may not be supported by all driver)
       #
       # @return [Capybara::Node::Element]  The file field element
-      def attach_file(locator=nil, path, **options)
+      def attach_file(locator=nil, path, style: nil, **options)
         Array(path).each do |p|
           raise Capybara::FileNotFound, "cannot attach file, #{p} does not exist" unless File.exist?(p.to_s)
         end
         # Allow user to update the CSS style of the file input since they are so often hidden on a page
-        if style = options.delete(:style)
+        if style
           ff = find(:file_field, locator, options.merge({visible: :all}))
           _update_style(ff, style)
         end
